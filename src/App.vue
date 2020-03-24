@@ -7,30 +7,32 @@
 		</div>
 		<div class="sortHeader">
 			Hur vill du sortera?
-			<button @click="sorteringsNyckel = 'namn'">Namn</button> /
-			<button @click="sorteringsNyckel = 'aktivitet'">Aktivitet</button>
-			<button @click="sorteringsNyckel = 'restaurang'">Restaurang</button>
-			<button @click="sorteringsNyckel = 'sightseeing'">Sightseeing</button>
+			<button @click="sorteringsNyckel = 'namn'"
+				:class="{ selected: sorteringsNyckel == 'namn' }">Namn</button> /
+			<button @click="sorteringsNyckel = 'aktivitet'"
+				:class="{ selected: sorteringsNyckel == 'aktivitet' }">Aktivitet</button>
+			<button @click="sorteringsNyckel = 'restaurang'"
+				:class="{ selected: sorteringsNyckel == 'restaurang' }">Restaurang</button>
+			<button @click="sorteringsNyckel = 'sightseeing'"
+				:class="{ selected: sorteringsNyckel == 'sightseeing' }">Sightseeing</button>
 		</div>
 		<div class="list">
-			<div class="item" v-for="plats in sorteradePlatser" :key="plats.id">
-				{{ plats.namn }}
-				{{ plats.adress }}
-				Aktivitet: {{ plats.aktivitet}}
-				Restaurang: {{plats.restaurang}}
-				Sightseeing: {{plats.sightseeing}}
-			</div>
+			<PlatsRad v-for="plats in sorteradePlatser" :key="plats.id" :plats="plats" />
 		</div>
 	</div>
 </template>
 
+<!-- slider -->
+<!-- input-fält -->
+<!-- buttons +1 -1 -->
+
 <script>
-// import ?? from './components/??.vue'
+import PlatsRad from './components/PlatsRad.vue'
 
 export default {
 	name: 'App',
 	components: {
-		// ??
+		PlatsRad
 	},
 	data: () => ({
 		platser: [
@@ -60,8 +62,8 @@ export default {
 
 			if( this.sorteringsNyckel == 'namn' ) {
 				let sorterad = copy.sort( (a, b) => {
-					if( a.namn < b.namn ) return -1;
-					else if( a.namn > b.namn ) return 1;
+					if( a.namn.toLowerCase() < b.namn.toLowerCase() ) return -1;
+					else if( a.namn.toLowerCase() > b.namn.toLowerCase() ) return 1;
 					else return 0;
 				} )
 				return sorterad;
@@ -95,25 +97,26 @@ export default {
 	color: #2c3e50;
 }
 
-*{
+* {
 	margin: 0;
 }
-body{
+body {
 	min-height: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }
-div {
+.list {
 	background-color: #99E6E6;
 	padding: .5rem;
 	border: 1px solid grey;
 	width: 80vw;
 }
-div:nth-child(even){
+.list > .item:nth-child(even) {
 	background-color: #CCFFCC;
 }
+
 
 button {
 	font-family: 'Franklin Gothic Medium';
@@ -129,7 +132,7 @@ button {
 	transition: all 0.1s;
 	cursor: pointer;
 }
-button:hover, button:focus  {
+button:hover, button:focus, button.selected {
 	color: #F3F2F2;
 	background: rgb(115, 163, 163);
 	transition: all 0.3s;
@@ -141,7 +144,7 @@ button:hover, button:focus  {
     padding: 1em;
     background-color: gray;
 }
-input {
+.filterHeader input {
     border: 1px solid lightblue;
     border-radius: 0.2em;
     width: 30%;
