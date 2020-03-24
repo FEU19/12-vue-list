@@ -65,32 +65,14 @@ export default {
 					else return 0;
 				} )
 				return sorterad;
-
-			} else if( this.sorteringsNyckel == 'aktivitet' ) {
+			} else {
 				let sorterad = copy.sort( (a, b) => {
-					if( a.aktivitet > b.aktivitet ) return -1;
-					else if( a.aktivitet < b.aktivitet ) return 1;
-					else return 0;
-				} )
-				return sorterad;
-
-			} else if( this.sorteringsNyckel == 'restaurang' ) {
-					let sorterad = copy.sort( (a, b) => {
-						if( a.restaurang > b.restaurang ) return -1;
-						else if( a.restaurang < b.restaurang ) return 1;
-						else return 0;
-					} )
-					return sorterad;
-
-			} else if( this.sorteringsNyckel == 'sightseeing' ) {
-				let sorterad = copy.sort( (a, b) => {
-					if( a.sightseeing > b.sightseeing ) return -1;
-					else if( a.sightseeing < b.sightseeing ) return 1;
+					if( a[this.sorteringsNyckel] > b[this.sorteringsNyckel] ) return -1;
+					else if( a[this.sorteringsNyckel] < b[this.sorteringsNyckel] ) return 1;
 					else return 0;
 				} )
 				return sorterad;
 			}
-			return this.platser;
 		} // sorteradePlatser
 	},  // computed
 	methods: {
@@ -113,35 +95,56 @@ export default {
 	color: #2c3e50;
 }
 
-/* .list{
-    padding: 1em;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-}
-.item:nth-child(odd){
-    background-color: lightgray;
-}
-.item:nth-child(even){
-    background-color: whitesmoke;
-} */
 *{
-  margin: 0;
+	margin: 0;
 }
 body{
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 div {
-  background-color: #99E6E6;
-  padding: .5rem;
-  border: 1px solid grey;
-  width: 80vw;
+	background-color: #99E6E6;
+	padding: .5rem;
+	border: 1px solid grey;
+	width: 80vw;
 }
 div:nth-child(even){
-  background-color: #CCFFCC;
+	background-color: #CCFFCC;
+}
+
+button {
+	font-family: 'Franklin Gothic Medium';
+	letter-spacing: 2px;
+	color: #686767;
+	text-transform: uppercase;
+	text-decoration: none;
+	background: rgb(208, 238, 206);
+	padding:2px 6px 2px 6px;
+	border-radius: 2px;
+	border: 1.5px solid grey;
+	display: inline-block;
+	transition: all 0.1s;
+	cursor: pointer;
+}
+button:hover, button:focus  {
+	color: #F3F2F2;
+	background: rgb(115, 163, 163);
+	transition: all 0.3s;
+}
+
+.filterHeader {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 1em;
+    background-color: gray;
+}
+input {
+    border: 1px solid lightblue;
+    border-radius: 0.2em;
+    width: 30%;
+    padding: 1em;
 }
 </style>
