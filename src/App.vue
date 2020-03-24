@@ -1,7 +1,11 @@
 <template>
 	<div id="app">
 		<h1>Stadsturist</h1>
-		<div>
+		<div class="filterHeader">
+			<input type="text" placeholder="Skriv vad du vill söka efter"
+				@keyup="handleKeyUp" />
+		</div>
+		<div class="sortHeader">
 			Hur vill du sortera?
 			<button @click="sorteringsNyckel = 'namn'">Namn</button> /
 			<button @click="sorteringsNyckel = 'aktivitet'">Aktivitet</button>
@@ -39,12 +43,21 @@ export default {
 			{ id: 8, namn: 'Donald Trump', adress: '1600 Pennsylvania Avenue, Washington DC', aktivitet: 4, sightseeing: 1, restaurang: 3 }
 			// namn: 'Almedal Club', adress: 'Ebbe Lieberathsgatan 18C', 412 65 Göteborg, aktivitetet: 3, restaurang: 1, sightseeing: 4
 		],
-		sorteringsNyckel: 'namn' // sortKey
+		sorteringsNyckel: 'namn', // sortKey
+		filter: ''  // decides which items in the list should be visible
 	}),
 	computed: {
 		sorteradePlatser() {
 			console.log('sorteradePlatser körs');
 			let copy = [ ...this.platser ];  // make a copy of the list, because SORT changes the list
+			// maybe filter the list
+			if( this.filter == '' ) {
+				// no filter
+			} else {
+				copy = this.filtreraPlatser(copy);
+			}
+
+
 			if( this.sorteringsNyckel == 'namn' ) {
 				let sorterad = copy.sort( (a, b) => {
 					if( a.namn < b.namn ) return -1;
@@ -79,7 +92,16 @@ export default {
 			}
 			return this.platser;
 		} // sorteradePlatser
-	}  // computed
+	},  // computed
+	methods: {
+		filtreraPlatser(lista) {
+			// om namnet innehåller strängen som vi har skrivit i input-fältet, ska platsen tas med
+			return lista.filter(plats => plats.namn.toLowerCase().includes(this.filter.toLowerCase()));
+		},
+		handleKeyUp(event) {
+			this.filter = event.target.value;
+		}
+	}
 }
 </script>
 
